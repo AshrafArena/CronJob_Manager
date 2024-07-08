@@ -8,7 +8,7 @@ A self-developed Flask web application to manage user-based CronJobs on linux-ba
 - Add new cron jobs
 - Delete cron jobs
 
-# Installation
+# Installation:
 
 ## Switch to root user
 sudo su -
