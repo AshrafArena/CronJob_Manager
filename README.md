@@ -26,6 +26,7 @@ cd /home/ec2-user
 
 # Clone the GitHub repository
 git clone https://github.com/AshrafArena/CronJob_Manager.git
+
 cd CronJob_Manager
 
 # Install Python dependencies
