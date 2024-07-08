@@ -34,6 +34,9 @@ pip3 install -r requirements.txt
 ## Run the Flask application
 sudo python3 run.py
 
+NOTE: The server is listening on port 80, browsers default to 443 (https), so just remove the "s" from 
+your VM's public IP and you will be able to access the app.
+
 ## Tree Structure
 
 Your directory structure for the app should look very similiar to this:
