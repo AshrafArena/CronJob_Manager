@@ -15,6 +15,7 @@ sudo su -
 
 # Update system and install required packages
 yum update -y
+
 yum install -y python3 python3-pip cronie git
 
 # Start and enable crond service
