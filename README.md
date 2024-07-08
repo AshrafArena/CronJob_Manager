@@ -10,10 +10,30 @@ A Flask web application to manage user-based cron jobs.
 
 ## Installation
 
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/ashrafarena/cronjob_manager.git
-   cd cronjob_manager
+1. Switch to root user
+sudo su -
+
+2. Update system and install required packages
+yum update -y
+yum install -y python3 python3-pip cronie git
+
+3. Start and enable crond service
+systemctl start crond
+systemctl enable crond
+
+4. Switch to ec2-user home directory
+cd /home/ec2-user
+
+5. Clone the GitHub repository
+git clone https://github.com/AshrafArena/CronJob_Manager.git
+cd CronJob_Manager
+
+6.Install Python dependencies
+pip3 install -r requirements.txt
+
+7. Run the Flask application
+python3 run.py
+
 
 ## Tree structure
 
