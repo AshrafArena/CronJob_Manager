@@ -1,4 +1,4 @@
-# Cron Job Manager
+# CronJob Manager
 
 A self-developed Flask web application to manage user-based CronJobs on linux-based systems.
 
