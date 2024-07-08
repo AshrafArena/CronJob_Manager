@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cron Job Manager</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 800px;
+            margin-top: 30px;
+        }
+        table {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Add New Cron Job</h1>
+        <form id="cronJobForm">
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="minute">MIN</label>
+                    <input type="text" class="form-control" id="minute" placeholder="0-59" required>
+                </div>
+                <div class="form-group col">
+                    <label for="hour">HOUR</label>
+                    <input type="text" class="form-control" id="hour" placeholder="0-23" required>
+                </div>
+                <div class="form-group col">
+                    <label for="dom">DOM</label>
+                    <input type="text" class="form-control" id="dom" placeholder="1-31" required>
+                </div>
+                <div class="form-group col">
+                    <label for="mon">MON</label>
+                    <input type="text" class="form-control" id="mon" placeholder="1-12" required>
+                </div>
+                <div class="form-group col">
+                    <label for="dow">DOW</label>
+                    <input type="text" class="form-control" id="dow" placeholder="0-6" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="command">CMD</label>
+                <input type="text" class="form-control" id="command" placeholder="command to execute" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Add Cron Job</button>
+        </form>
+        <table class="table table-bordered mt-4">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">MIN</th>
+                    <th scope="col">HOUR</th>
+                    <th scope="col">DOM</th>
+                    <th scope="col">MON</th>
+                    <th scope="col">DOW</th>
+                    <th scope="col">CMD</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="cronJobsTable">
+                {% for job in jobs %}
+                <tr>
+                    {% set parts = job.split() %}
+                    <td>{{ parts[0] }}</td>
+                    <td>{{ parts[1] }}</td>
+                    <td>{{ parts[2] }}</td>
+                    <td>{{ parts[3] }}</td>
+                    <td>{{ parts[4] }}</td>
+                    <td>{{ ' '.join(parts[5:]) }}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="deleteCronJob({{ loop.index0 }})">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        function deleteCronJob(jobIndex) {
+            fetch(`/delete_cronjob/${jobIndex}`, {
+                method: 'DELETE'
+            }).then(response => response.json()).then(data => {
+                if (data.status === 'success') {
+                    location.reload();
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            $('#cronJobForm').on('submit', function(e) {
+                e.preventDefault();
+                const minute = $('#minute').val();
+                const hour = $('#hour').val();
+                const dom = $('#dom').val();
+                const mon = $('#mon').val();
+                const dow = $('#dow').val();
+                const command = $('#command').val();
+                const cron_expression = `${minute} ${hour} ${dom} ${mon} ${dow}`;
+
+                fetch('/add_cronjob', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        cron_expression: cron_expression,
+                        command: command
+                    })
+                }).then(response => response.json()).then(data => {
+                    if (data.status === 'success') {
+                        location.reload();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
