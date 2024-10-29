@@ -28,7 +28,7 @@ jobs:
       
       - name: Build Docker image
         run: |
-          docker build -t cronjob-manager .
+          docker build -t cronjob-manager -f app/Dockerfile .
           docker tag cronjob-manager:latest $ECR_REGISTRY/cronjob-manager:latest
 
       
