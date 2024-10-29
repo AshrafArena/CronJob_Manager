@@ -29,12 +29,13 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t cronjob-manager -f app/Dockerfile .
-          docker tag cronjob-manager:latest $ECR_REGISTRY/ashraf/cronjobui:latest
+          docker tag cronjob-manager:latest 971422696890.dkr.ecr.eu-west-2.amazonaws.com/ashraf/cronjobui:latest
 
 
       
       - name: Push to Amazon ECR
         run: |
-          docker push $ECR_REGISTRY/ashraf/cronjobui:latest
+          docker push 971422696890.dkr.ecr.eu-west-2.amazonaws.com/ashraf/cronjobui:latest
+
 
     
