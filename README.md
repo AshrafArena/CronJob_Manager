@@ -37,11 +37,5 @@ sudo python3 run.py
 NOTE: The server is listening on port 80, browsers default to 443 (https), so just remove the "s" from 
 your VM's public IP and you will be able to access the app.
 
-## Tree Structure
-
-Your directory structure for the app should look very similiar to this:
-
-
-![Dir Tree](https://github.com/AshrafArena/CronJob_Manager/assets/129840697/fa0f90c0-521a-45cb-883e-8937777d9f98)
 
     
