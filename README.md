@@ -1,6 +1,6 @@
 # CronJob Manager
 
-A self-developed Flask web application to manage user-based CronJobs on linux-based systems.
+A Flask web application to manage CronJobs through a UI instead of an editor.
 
 # Features
 
