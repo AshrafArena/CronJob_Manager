@@ -1,0 +1,46 @@
+name: Cronjob Manager CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      
+      - name: Log in to Amazon ECR
+        env:
+          AWS_REGION: eu-west-2
+          ECR_REGISTRY: 971422696890.dkr.ecr.eu-west-2.amazonaws.com/ashraf/cronjobui
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
+
+      
+      - name: Build Docker image
+        run: |
+          docker build -t cronjob-manager .
+          docker tag cronjob-manager:latest $ECR_REGISTRY/cronjob-manager:latest
+
+      
+      - name: Push to Amazon ECR
+        run: |
+          docker push $ECR_REGISTRY/cronjob-manager:latest
+
+      
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          cluster: <your-ecs-cluster>
+          service: <your-ecs-service>
+          image: $ECR_REGISTRY/cronjob-manager:latest
+          container-name: cronjob-manager
