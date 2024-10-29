@@ -29,18 +29,12 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t cronjob-manager -f app/Dockerfile .
-          docker tag cronjob-manager:latest $ECR_REGISTRY/cronjob-manager:latest
+          docker tag cronjob-manager:latest $ECR_REGISTRY/ashraf/cronjobui:latest
+
 
       
       - name: Push to Amazon ECR
         run: |
-          docker push $ECR_REGISTRY/cronjob-manager:latest
+          docker push $ECR_REGISTRY/ashraf/cronjobui:latest
 
-      
-      - name: Deploy to ECS
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          cluster: <your-ecs-cluster>
-          service: <your-ecs-service>
-          image: $ECR_REGISTRY/cronjob-manager:latest
-          container-name: cronjob-manager
+    
